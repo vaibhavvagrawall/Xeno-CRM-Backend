@@ -1,21 +1,20 @@
-const jwt = require('jsonwebtoken');
-const dotenv = require('dotenv');
+const passport = require('passport');
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
+  
+passport.use(
+    new GoogleStrategy({
+        clientID: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        callbackURL: 'http://localhost:5000/auth/google/callback',
+    }, (accessToken, refreshToken, profile, done) =>{
+        return done(null, profile);
+    })
+)
 
-dotenv.config();
-const auth = (req, res, next) =>{
-    const token = req.header('Authorization')?.split(' ')[1];
-    
-    if(!token){
-        return req.status(401).json({ message: 'Access denied. No token provided.'});
-    }
+passport.serializeUser((user, done) => {
+    done(null, user);
+});
 
-    try{
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = decoded;
-        next();
-    }catch (error){
-        res.status(400).json({ message: 'Invalid token.'});
-    }
-};
-
-module.exports = auth;
+passport.deserializeUser((user, done) => {
+    done(null, user);
+});

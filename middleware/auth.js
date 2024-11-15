@@ -1,6 +1,4 @@
 const isAuthenticated = (req, res, next) => {
-  console.log('Session:', req.session);
-  console.log('Authentication check:', req.isAuthenticated()); 
   if (req.isAuthenticated()) {
     return next();
   }

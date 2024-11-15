@@ -17,6 +17,5 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser((id, done) => {
-    // Assuming you're not using a database, just pass the id as is
     done(null, { id: id });
 });

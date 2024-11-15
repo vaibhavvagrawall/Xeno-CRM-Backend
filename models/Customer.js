@@ -5,6 +5,7 @@ const customerSchema = new mongoose.Schema({
     totalSpending: {type: Number, default: 0},
     lastVisit: {type: Date},
     visitCount: {type: Number, default: 0},
+    userId: { type: String, required: true },
 });
 
 module.exports = mongoose.model('Customer', customerSchema);

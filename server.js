@@ -14,6 +14,7 @@ const passportSetup = require('./middleware/passport');
 const customerRoutes = require('./routes/customerRoutes');
 const orderRoutes = require('./routes/orderRoutes');
 const audienceRoutes = require('./routes/audienceRoutes');
+const campaignRoutes = require('./routes/campaignRoutes');
 const authRoutes = require('./routes/authRoutes');
 
 const app = express();
@@ -46,6 +47,7 @@ app.use(authRoutes);
 app.use('/api', customerRoutes);
 app.use('/api', orderRoutes);
 app.use('/api', audienceRoutes);
+app.use('/api', campaignRoutes);
 
 const PORT = process.env.PORT || 5000;
 

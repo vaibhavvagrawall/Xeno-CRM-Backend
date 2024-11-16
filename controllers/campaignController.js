@@ -3,13 +3,11 @@ const Audience = require('../models/Audience');
 
 exports.createCampaign = async (req, res) => {
     try {
-        const { name, description, audienceId, message } = req.body;
-        const audience = await Audience.findById(audienceId);
+        const { name, message, audienceId } = req.body;
         const campaign = new Campaign({
             name,
-            description,
-            audienceId,
             message,
+            audienceId,
         });
         await campaign.save();
         res.status(201).json(campaign);

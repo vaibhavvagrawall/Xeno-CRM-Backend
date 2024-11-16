@@ -4,6 +4,6 @@ const campaignController = require('../controllers/campaignController');
 const isAuthenticated = require('../middleware/auth');
 
 router.post('/campaigns', isAuthenticated, campaignController.createCampaign);
-router.post('/campaigns/history', isAuthenticated, campaignController.getCampaign);
+router.get('/campaigns/history', isAuthenticated, campaignController.getCampaign);
 
 module.exports = router;

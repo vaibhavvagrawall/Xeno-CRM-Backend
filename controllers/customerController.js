@@ -1,4 +1,6 @@
 const Customer = require("../models/Customer");
+const Order = require("../models/Order");
+const { updateAudienceForCustomer } = require('../utils/helper');
 
 exports.createCustomer = async (req, res) => {
     try {
@@ -13,6 +15,7 @@ exports.createCustomer = async (req, res) => {
             userId,
         });
         await customer.save();
+        await updateAudienceForCustomer(userId);
         res.status(201).json(customer);
     } catch (error) {
         res.status(400).json({ error: error.message });
@@ -35,7 +38,7 @@ exports.getCustomerById = async (req, res) => {
         const customer = await Customer.findOne({ _id: id, userId });
         res.status(201).json(customer);
     } catch (error) {
-        res.status(500).json({ error: "Failed to fetch customer" });
+        res.status(500).json({ error: error.message });
     }
 };
 
@@ -44,15 +47,11 @@ exports.updateCustomer = async (req, res) => {
         const { id } = req.params;
         const userId = req.user.id;
         const updatedData = req.body;
-
-        const customer = await Customer.findOneAndUpdate(
-            { _id: id, userId },
-            updatedData,
-            { new: true, runValidators: true }
-        );
+        const customer = await Customer.findOneAndUpdate({ _id: id, userId }, updatedData, { new: true, runValidators: true });
+        await updateAudienceForCustomer(userId);
         res.status(201).json(customer);
     } catch (error) {
-        res.status(500).json({ error: "Failed to update customer" });
+        res.status(500).json({ error: error.message });
     }
 };
 
@@ -61,8 +60,10 @@ exports.deleteCustomer = async (req, res) => {
         const { id } = req.params;
         const userId = req.user.id;
         const customer = await Customer.findOneAndDelete({ _id: id, userId });
-        res.status(201).json({ message: "Customer deleted successfully" });
+        await Order.deleteMany({ customerId: customer._id });
+        await updateAudienceForCustomer(userId);
+        res.status(201).json({ message: "Customer and their orders deleted successfully" });
     } catch (error) {
-        res.status(500).json({ error: "Failed to delete customer" });
+        res.status(500).json({ error: error.message });
     }
 };

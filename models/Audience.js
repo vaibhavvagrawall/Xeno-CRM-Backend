@@ -9,7 +9,7 @@ const audienceSchema = new mongoose.Schema({
         }
     ],
     size: { type: Number, required: true},
-    userId: {type: String, required: true}
-}, {timestamps: true});
-
+    userId: {type: String, required: true},
+    customers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Customer' }],
+})
 module.exports = mongoose.model('Audience', audienceSchema);

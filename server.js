@@ -11,10 +11,12 @@ dotenv.config();
 const connectDB = require("./config/db");
 const passportSetup = require('./middleware/passport');
 
+const dashboardRoutes = require('./routes/dashboardRoutes');
 const customerRoutes = require('./routes/customerRoutes');
 const orderRoutes = require('./routes/orderRoutes');
 const audienceRoutes = require('./routes/audienceRoutes');
 const campaignRoutes = require('./routes/campaignRoutes');
+const communicationRoutes = require('./routes/communicationRoutes');
 const authRoutes = require('./routes/authRoutes');
 
 const app = express();
@@ -48,6 +50,8 @@ app.use('/api', customerRoutes);
 app.use('/api', orderRoutes);
 app.use('/api', audienceRoutes);
 app.use('/api', campaignRoutes);
+app.use('/api', communicationRoutes);
+app.use('/api', dashboardRoutes)
 
 const PORT = process.env.PORT || 5000;
 

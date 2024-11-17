@@ -1,8 +1,6 @@
 const express = require ('express');
 const router = express.Router();
 const passport = require('passport');
-BASE_URI = process.env.BASE_URI
-const CLIENT_URL = process.env.CLIENT_URL;
 
 router.get('/auth/google', passport.authenticate('google', {
     scope: ['profile', 'email']

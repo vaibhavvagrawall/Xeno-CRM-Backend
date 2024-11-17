@@ -25,14 +25,15 @@ app.use(express.json());
 app.use(bodyParser.json()); 
 
 app.use(session({
-  secret: 'secret', 
-  resave: false,
-  saveUninitialized: true,
-  cookie: { secure: true }
-}));
+    secret: "secret",
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: false, sameSite: "lax" },
+  })
+);
 
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: process.env.CLIENT_URL,
   methods: "GET, POST, PUT, DELETE",
   credentials: true,
 }))
